@@ -1,64 +1,55 @@
-# LiteCPU16 🚀
+# LiteCPU16
 
-Welcome to **LiteCPU16**! This is a simple, beginner-friendly 16-bit processor built purely for educational purposes. 
+LiteCPU16 is a minimal 16-bit single-cycle embedded processor designed explicitly for educational purposes. It serves as an accessible introduction to computer architecture, demonstrating how a Central Processing Unit (CPU) functions at the hardware level.
 
-If you've ever wondered **"how does a computer actually think?"**, this project is your front-row ticket to understanding the magic beneath the keyboard! 
+## Introduction to CPUs and Hardware Description Languages
 
----
+A Central Processing Unit (CPU) acts as the logic center of any computer, executing the mathematical operations and decisions required to run software. 
 
-## 🧐 What is this?
-A CPU (Central Processing Unit) is the "brain" of a computer. When you open a web browser, play a game, or type a document, the CPU is the thing doing all the heavy lifting and math in the background.
+Unlike typical software written in languages like Python or C++, LiteCPU16 is constructed using Verilog. Verilog is a Hardware Description Language (HDL)—it describes physical logic gates and electrical pathways rather than software routines. By reading this project's code, you are viewing the blueprint of a physical microchip.
 
-**LiteCPU16** is a **minimalist, custom-built brain**. We took the complex core of what a CPU is, stripped away all the modern complicated features, and kept only the absolute essentials. 
+## Core Architecture Features
 
-It is written in a language called **Verilog**, which is a "Hardware Description Language" (HDL). Instead of writing code to create an app or a website, Verilog lets us write code to **design a physical microchip**. 
+LiteCPU16 strips away the modern complexities of commercial processors (such as pipelining, caching, and interrupts) to focus exclusively on fundamental mechanics:
 
-## 🧠 Core Features 
-We built LiteCPU16 to be as simple as possible so you can study how it works!
+*   **16-bit Architecture:** The processor handles data and memory addresses in 16-bit segments (binary numbers up to 16 digits long).
+*   **Harvard Architecture:** It utilizes separate memory structures for instructions (the program sequence) and data (the variables being processed), preventing structural hazards.
+*   **Reduced Instruction Set:** It implements only five essential instructions:
+    1.  `ADD`: Performs addition on two registers.
+    2.  `LW` (Load Word): Retrieves a value from Data Memory into a register.
+    3.  `SW` (Store Word): Saves a value from a register into Data Memory.
+    4.  `BEQ` (Branch if Equal): Checks if two registers are equal, and alters the instruction sequence if true.
+    5.  `NOP` (No Operation): A safe placeholder instruction that performs no action.
+*   **Single-Cycle Execution:** Every instruction completes entirely within one clock cycle. 
 
-*   **16-bit Architecture:** It thinks about numbers up to 16 binary digits long (0s and 1s) at a time.
-*   **Harvard Architecture:** It has two separate "brains" for memory—one for remembering instructions (what to do) and one for remembering data (the things it's working on). 
-*   **5 Instructions Only:** It knows how to do exactly 5 things:
-    1.  `ADD`: Add two numbers together.
-    2.  `LW` (Load Word): Grab a number from memory.
-    3.  `SW` (Store Word): Save a number into memory.
-    4.  `BEQ` (Branch if Equal): Skip to a different instruction if two numbers match.
-    5.  `NOP` (No Operation): Do absolutely nothing for a second.
-*   **Single-Cycle:** It completes one full instruction in a single "tick" or heartbeat of its clock. No waiting!
+## The 8-File Modular Structure
 
----
+Real processors consist of interconnected functional units. LiteCPU16 is divided into 8 distinct Verilog files to model these units clearly:
 
-## 📁 How is it Built? (The 8-File Structure)
-A real processor is made up of different smaller departments that work together like a factory. We divided LiteCPU16 up into 8 clean files so you can see exactly what each department does:
+1.  **`cpu_top.v`**: The Top-Level Module. It wires all internal components and memory interfaces together into a single cohesive processor.
+2.  **`pc.v`** (Program Counter): A register that holds the memory address of the instruction currently being executed.
+3.  **`instr_mem.v`** (Instruction Memory): A read-only memory block containing the sequence of commands the CPU must execute.
+4.  **`dmem.v`** (Data Memory): A read/write memory block that stores the data values the CPU is actively manipulating.
+5.  **`control.v`** (Control Unit): The decoding logic. It evaluates the current instruction opcode and orchestrates control signals to direct the rest of the processor.
+6.  **`regfile.v`** (Register File): Fast, internal working memory consisting of 8 slots (`R0` through `R7`). `R0` is physically hardwired to the value 0.
+7.  **`alu.v`** (Arithmetic Logic Unit): The computational core. It handles arithmetic operations (addition) and logical evaluations (equality comparisons).
+8.  **`sign_ext.v` & `branch_unit.v`**: Auxiliary logic. These modules handle the extension of negative offsets and calculate target addresses for branch instructions, respectively.
 
-1.  **`cpu_top.v`**: The Factory Floor Manager. It connects all the other departments together so they can talk.
-2.  **`pc.v`** (Program Counter): The Bookmark. It simply remembers which instruction step the CPU is currently on.
-3.  **`instr_mem.v`** (Instruction Memory): The Recipe Book. It holds the list of instructions the CPU needs to follow.
-4.  **`dmem.v`** (Data Memory): The Filing Cabinet. It holds the data/numbers the CPU is currently working with. 
-5.  **`control.v`** (Control Unit): The Traffic Cop. It reads the current instruction and tells all the other departments what they need to do for that specific instruction.
-6.  **`regfile.v`** (Register File): The Scratchpad. A tiny, super-fast piece of memory right next to the calculator. It has 8 slots (R0 to R7) to hold numbers it's working on Right Now.
-7.  **`alu.v`** (Arithmetic Logic Unit): The Calculator. It does the actual math (like adding two numbers or checking if they are equal). 
-8.  **`sign_ext.v` & `branch_unit.v`**: The Navigators. They help the CPU handle negative numbers and figure out where to jump in the recipe book if it needs to skip around.
+## Running the Simulation
 
----
+Because LiteCPU16 is described in Verilog, you can simulate its electrical behavior directly on your computer to observe instructions executing step-by-step.
 
-## 🛠️ How to Play with It
-Because this is written in Verilog, you can run a **simulation** of it on your computer to watch it tick!
+**Prerequisites:** You must have a Verilog simulator installed, such as [Icarus Verilog](https://bleyer.org/icarus/) (`iverilog`).
 
-**Prerequisites:** You'll need a program called **Icarus Verilog** (`iverilog`) installed on your computer.
-
-### Running the Simulation
-1. Open your terminal or command line.
-2. Compile all the factory departments together:
+### Simulation Steps
+1. Open your system's command line interface.
+2. Compile the design modules alongside the test environment:
    ```bash
    iverilog -o litecpu16_sim tb_litecpu16.v cpu_top.v pc.v control.v regfile.v alu.v sign_ext.v branch_unit.v instr_mem.v dmem.v
    ```
-3. Turn on the power simulator!
+3. Execute the resulting simulation binary:
    ```bash
    vvp litecpu16_sim
    ```
 
-You will see output showing you exactly how the CPU read its instructions, did the math, and spat out the correct answer! 
-
----
-*Happy tinkering, and welcome to the world of Computer Architecture!* 🏗️💻
+Upon execution, the testbench will output the state of the registers and memory to verify that the processor correctly executed its hardcoded instruction sequence.
