@@ -8,6 +8,8 @@ A Central Processing Unit (CPU) acts as the logic center of any computer, execut
 
 Unlike typical software written in languages like Python or C++, LiteCPU16 is constructed using Verilog. Verilog is a Hardware Description Language (HDL)—it describes physical logic gates and electrical pathways rather than software routines. By reading this project's code, you are viewing the blueprint of a physical microchip.
 
+👉 **Want to understand how instructions flow through this chip? Read our [Architecture Guide](ARCHITECTURE_GUIDE.md)!**
+
 ## Core Architecture Features
 
 LiteCPU16 strips away the modern complexities of commercial processors (such as pipelining, caching, and interrupts) to focus exclusively on fundamental mechanics:
