@@ -16,7 +16,7 @@ module tb_litecpu16;
     wire [15:0] dmem_rdata;
 
     // Instantiate CPU
-    litecpu16 cpu_inst (
+    cpu_top cpu_inst (
         .clk        (clk),
         .rst_n      (rst_n),
         .imem_addr  (imem_addr),
@@ -28,7 +28,7 @@ module tb_litecpu16;
     );
 
     // Instantiate IMEM
-    imem imem_inst (
+    instr_mem imem_inst (
         .addr  (imem_addr),
         .instr (imem_rdata)
     );
