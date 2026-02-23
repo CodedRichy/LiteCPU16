@@ -1,7 +1,7 @@
-// barecore.v
+// litecpu16.v
 `timescale 1ns/1ps
 
-module barecore (
+module litecpu16 (
     input wire clk,
     input wire rst_n,
 

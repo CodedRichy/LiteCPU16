@@ -1,7 +1,7 @@
-// tb_barecore.v
+// tb_litecpu16.v
 `timescale 1ns/1ps
 
-module tb_barecore;
+module tb_litecpu16;
 
     reg clk;
     reg rst_n;
@@ -16,7 +16,7 @@ module tb_barecore;
     wire [15:0] dmem_rdata;
 
     // Instantiate CPU
-    barecore cpu_inst (
+    litecpu16 cpu_inst (
         .clk        (clk),
         .rst_n      (rst_n),
         .imem_addr  (imem_addr),
@@ -50,8 +50,8 @@ module tb_barecore;
 
     // Test sequence
     initial begin
-        $dumpfile("barecore.vcd");
-        $dumpvars(0, tb_barecore);
+        $dumpfile("litecpu16.vcd");
+        $dumpvars(0, tb_litecpu16);
 
         // Reset system
         rst_n = 0;
