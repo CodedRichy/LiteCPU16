@@ -11,15 +11,14 @@ module testbench;
 
         #100;
 
-        $display("x1 = %d", uut.RF.regs[1]);
-        $display("x2 = %d", uut.RF.regs[2]);
-        $display("x3 = %d", uut.RF.regs[3]);
-        $display("mem[3] = %d", uut.DM.memory[3]);
-        $display("x4 = %d", uut.RF.regs[4]);
-        if (uut.RF.regs[4] == uut.RF.regs[3])
-            $display("BEQ condition TRUE (x4 == x3)");
-        else
-            $display("BEQ condition FALSE (x4 != x3)");
+        $display("--- Execution Results ---");
+        $display("R1 = %d", uut.RF.regs[1]);
+        $display("R2 = %d", uut.RF.regs[2]);
+        $display("R3 = %d", uut.RF.regs[3]);
+        $display("R4 = %d", uut.RF.regs[4]);
+        $display("R5 = %d", uut.RF.regs[5]);
+        $display("R6 = %d", uut.RF.regs[6]);
+        $display("-------------------------");
 
         $finish;
     end
