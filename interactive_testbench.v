@@ -32,6 +32,10 @@ module interactive_testbench;
     // Clock generator
     always #5 clk = ~clk;
 
+    // Standard I/O handles for Icarus
+    integer STDIN = 32'h8000_0000;
+    integer STDOUT = 32'h8000_0001;
+
     initial begin
         $display("===============================================");
         $display("   VERILOG INTERACTIVE CPU SIMULATION          ");
@@ -51,8 +55,12 @@ module interactive_testbench;
             $display("5. OR   (rd = rs1 | rs2)");
             $display("6. EXIT");
             $write("Choice: ");
+            $fflush(STDOUT);
             
-            if (!$fscanf(32'h8000_0000, "%d\n", choice)) $finish;
+            if ($fscanf(STDIN, "%d", choice) == 0) begin
+                $finish;
+            end
+            $display(""); // Force newline after input
 
             if (choice == 6) begin
                 $display("Exiting simulation...");
@@ -63,19 +71,28 @@ module interactive_testbench;
                 $display("Invalid choice. Try again.");
             end else begin
                 $write("Enter Destination Register (rd) [0-15]: ");
-                if (!$fscanf(32'h8000_0000, "%d\n", rd_idx)) $finish;
+                $fflush(STDOUT);
+                if ($fscanf(STDIN, "%d", rd_idx) == 0) $finish;
+                $display("");
 
                 $write("Enter Source Register 1 (rs1) [0-15]: ");
-                if (!$fscanf(32'h8000_0000, "%d\n", rs1_idx)) $finish;
+                $fflush(STDOUT);
+                if ($fscanf(STDIN, "%d", rs1_idx) == 0) $finish;
+                $display("");
 
                 if (choice == 2) begin
                     $write("Enter Immediate value [0-15]: ");
-                    if (!$fscanf(32'h8000_0000, "%d\n", imm_val)) $finish;
+                    $fflush(STDOUT);
+                    if ($fscanf(STDIN, "%d", imm_val) == 0) $finish;
+                    $display("");
+                    // Correcting bit mapping for your top.v instruction format
                     manual_instr = {4'h2, rd_idx[3:0], rs1_idx[3:0], imm_val[3:0]};
                     $display("=> Instruction: ADDI R%0d, R%0d, %0d", rd_idx, rs1_idx, imm_val);
                 end else begin
                     $write("Enter Source Register 2 (rs2) [0-15]: ");
-                    if (!$fscanf(32'h8000_0000, "%d\n", rs2_idx)) $finish;
+                    $fflush(STDOUT);
+                    if ($fscanf(STDIN, "%d", rs2_idx) == 0) $finish;
+                    $display("");
                     manual_instr = {choice[3:0], rd_idx[3:0], rs1_idx[3:0], rs2_idx[3:0]};
                     case(choice)
                         1: $display("=> Instruction: ADD R%0d, R%0d, R%0d", rd_idx, rs1_idx, rs2_idx);
@@ -93,6 +110,7 @@ module interactive_testbench;
                 use_manual_instr = 0;
                 
                 $display(">> Action: Executed and updated state.");
+                #10; // Brief pause for readability
             end
         end
     end
