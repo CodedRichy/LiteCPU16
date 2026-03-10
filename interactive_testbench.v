@@ -44,9 +44,16 @@ module interactive_testbench;
         
         forever begin
             // Display Register and Memory State
-            $display("\n[CPU STATE]");
-            $display("Regs: R0:%d | R1:%d | R2:%d | R3:%d", RF.regs[0], RF.regs[1], RF.regs[2], RF.regs[3]);
-            $display("DMem: [0]:%d | [1]:%d | [2]:%d | [3]:%d", DM.memory[0], DM.memory[1], DM.memory[2], DM.memory[3]);
+            $display("\n================ [ CPU STATE ] ================");
+            $display("Registers:");
+            $display("R0 : %d | R1 : %d | R2 : %d | R3 : %d", RF.regs[0], RF.regs[1], RF.regs[2], RF.regs[3]);
+            $display("R4 : %d | R5 : %d | R6 : %d | R7 : %d", RF.regs[4], RF.regs[5], RF.regs[6], RF.regs[7]);
+            $display("R8 : %d | R9 : %d | R10: %d | R11: %d", RF.regs[8], RF.regs[9], RF.regs[10], RF.regs[11]);
+            $display("R12: %d | R13: %d | R14: %d | R15: %d", RF.regs[12], RF.regs[13], RF.regs[14], RF.regs[15]);
+            $display("\nData Memory:");
+            $display("[0]: %d | [1]: %d | [2]: %d | [3]: %d", DM.memory[0], DM.memory[1], DM.memory[2], DM.memory[3]);
+            $display("[4]: %d | [5]: %d | [6]: %d | [7]: %d", DM.memory[4], DM.memory[5], DM.memory[6], DM.memory[7]);
+            $display("===============================================");
             
             $display("\nSelect Instruction:");
             $display("1. ADD  (rd = rs1 + rs2)");
