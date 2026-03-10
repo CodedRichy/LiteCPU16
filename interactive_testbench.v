@@ -53,6 +53,8 @@ module interactive_testbench;
             $display("\nData Memory:");
             $display("[0]: %d | [1]: %d | [2]: %d | [3]: %d", DM.memory[0], DM.memory[1], DM.memory[2], DM.memory[3]);
             $display("[4]: %d | [5]: %d | [6]: %d | [7]: %d", DM.memory[4], DM.memory[5], DM.memory[6], DM.memory[7]);
+            $display("[8]: %d | [9]: %d | [10]:%d | [11]:%d", DM.memory[8], DM.memory[9], DM.memory[10], DM.memory[11]);
+            $display("[12]:%d | [13]:%d | [14]:%d | [15]:%d", DM.memory[12], DM.memory[13], DM.memory[14], DM.memory[15]);
             $display("===============================================");
             
             $display("\nSelect Instruction:");
