@@ -1,6 +1,6 @@
 module interactive_testbench;
 
-    // CPU component signals
+    // CPU component signals 
     reg clk = 0;
     wire [15:0] pc, instr, rd1, rd2, alu_out, mem_out, next_pc;
     wire [3:0] opcode, rd, rs1, rs2;
@@ -124,3 +124,4 @@ module interactive_testbench;
     end
 
 endmodule
+
