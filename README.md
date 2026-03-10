@@ -1,4 +1,4 @@
-# LiteCPU16
+#LiteCPU16
 
 LiteCPU16 is a minimal 16-bit single-cycle embedded processor designed explicitly for educational purposes. It serves as an accessible introduction to computer architecture, demonstrating how a Central Processing Unit (CPU) functions at the hardware level.
 
