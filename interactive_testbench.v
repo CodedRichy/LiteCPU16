@@ -23,12 +23,13 @@ module interactive_testbench;
     wire regwrite, memwrite, alusrc, memtoreg, branch;
     wire [2:0] aluop;
     wire zero;
+    wire [15:0] rd_val;
 
     // Connect CPU components
-    regfile RF(clk, regwrite, rs1, rs2, rd, memtoreg ? mem_out : alu_out, rd1, rd2);
+    regfile RF(clk, regwrite, rs1, rs2, rd, memtoreg ? mem_out : alu_out, rd1, rd2, rd_val);
     alu ALU(rd1, alusrc ? {12'b0, rs2} : rd2, aluop, alu_out, zero);
     control CU(opcode, regwrite, memwrite, alusrc, memtoreg, branch, aluop);
-    dmem DM(clk, memwrite, alu_out, rd2, mem_out); // Explicitly connect memory here for simulation display
+    dmem DM(clk, memwrite, alu_out, rd_val, mem_out); // Explicitly connect memory here for simulation display
 
     // Clock generator
     always #5 clk = ~clk;
