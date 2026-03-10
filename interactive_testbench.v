@@ -1,12 +1,13 @@
 module interactive_testbench;
 
-    // CPU component signals
+    // CPU component signals 
     reg clk = 0;
     wire [15:0] pc, instr, rd1, rd2, alu_out, mem_out, next_pc;
     wire [3:0] opcode, rd, rs1, rs2;
 
     // Registers to hold user input
     integer choice;
+    integer status;
     integer rd_idx, rs1_idx, rs2_idx, imm_val;
     reg [15:0] manual_instr;
     reg use_manual_instr = 0;
@@ -70,9 +71,7 @@ module interactive_testbench;
             $write("Choice: ");
             $fflush(STDOUT);
             
-            if ($fscanf(STDIN, "%d", choice) == 0) begin
-                $finish;
-            end
+            status=$fscanf(STDIN, "%d", choice);
             $display(""); 
 
             if (choice == 8) begin
@@ -89,24 +88,24 @@ module interactive_testbench;
                     $write("Enter Destination/Source Register (rd) [0-15]: ");
                 end
                 $fflush(STDOUT);
-                if ($fscanf(STDIN, "%d", rd_idx) == 0) $finish;
+                status=$fscanf(STDIN, "%d", rd_idx);
                 $display("");
 
                 $write("Enter Source Register 1 (Base Address Register) [0-15]: ");
                 $fflush(STDOUT);
-                if ($fscanf(STDIN, "%d", rs1_idx) == 0) $finish;
+                status=$fscanf(STDIN, "%d", rs1_idx);
                 $display("");
 
                 if (choice == 2 || choice == 6 || choice == 7) begin
                     $write("Enter Immediate/Offset [0-15]: ");
                     $fflush(STDOUT);
-                    if ($fscanf(STDIN, "%d", imm_val) == 0) $finish;
+                    status=$fscanf(STDIN, "%d", imm_val);
                     $display("");
                     manual_instr = {choice[3:0], rd_idx[3:0], rs1_idx[3:0], imm_val[3:0]};
                 end else begin
                     $write("Enter Source Register 2 (rs2) [0-15]: ");
                     $fflush(STDOUT);
-                    if ($fscanf(STDIN, "%d", rs2_idx) == 0) $finish;
+                    status=$fscanf(STDIN, "%d", rs2_idx);
                     $display("");
                     manual_instr = {choice[3:0], rd_idx[3:0], rs1_idx[3:0], rs2_idx[3:0]};
                 end
@@ -125,3 +124,4 @@ module interactive_testbench;
     end
 
 endmodule
+
