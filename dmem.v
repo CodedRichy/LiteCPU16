@@ -6,7 +6,7 @@ module dmem(input clk,
 
     reg [15:0] memory [0:15];
 
-    assign rd = memory[addr];
+    assign rd = memory[addr[3:0]];
 
         integer i;
 
@@ -15,5 +15,5 @@ module dmem(input clk,
                 memory[i] = 0;
         end
     always @(posedge clk)
-        if (we) memory[addr] <= wd;
+        if (we) memory[addr[3:0]] <= wd;
 endmodule

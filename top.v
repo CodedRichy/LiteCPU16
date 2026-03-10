@@ -14,7 +14,7 @@ module top(input clk);
     imem IM(pc, instr);
     regfile RF(clk, regwrite, rs1, rs2, rd, memtoreg ? mem_out : alu_out, rd1, rd2, rd_val);
     alu ALU(rd1, alusrc ? {12'b0, rs2} : rd2, aluop, alu_out, zero);
-    dmem DM(clk, memwrite, alu_out, rd_val, mem_out);
+    dmem DM(clk, memwrite, alu_out, rd2, mem_out);
     control CU(opcode, regwrite, memwrite, alusrc, memtoreg, branch, aluop);
 
     assign next_pc = branch && zero ? pc + 2 : pc + 1;
